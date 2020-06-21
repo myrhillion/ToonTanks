@@ -31,7 +31,7 @@ void APawnTurret::Tick(float DeltaTime)
 void APawnTurret::CheckFireCondition()
 {
 	// If Player == null, || is dead then BAIL !!
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerPawn->GetPlayerAlive())
 	{
 		return;
 	}
