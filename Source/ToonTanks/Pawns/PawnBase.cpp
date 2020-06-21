@@ -3,6 +3,8 @@
 
 #include "PawnBase.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "ToonTanks/Actors/ProjectileBase.h"
 
 // Sets default values
 APawnBase::APawnBase()
@@ -24,5 +26,41 @@ APawnBase::APawnBase()
 
 }
 
+void APawnBase::RotateTurret(FVector LookAtTarget)
+{
+	// Update the rotation of turret mesh to face lookattarget from child classes.
+	// TurretMesh->SetWorldRotation()...
+
+	FVector StartLocation = TurretMesh->GetComponentLocation();
+	FRotator TurretRotation = UKismetMathLibrary::FindLookAtRotation(StartLocation, FVector(LookAtTarget.X, LookAtTarget.Y, TurretMesh->GetComponentLocation().Z));
+	
+	// Rotate Turret
+	TurretMesh->SetWorldRotation(TurretRotation);
+}
+
+void APawnBase::Fire()
+{
+	// Get ProjectilSpawnPoint location && Rotation -> Spawn Projectile at location towards Rotation
+	if (ProjectileClass)
+	{
+		FVector SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
+		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
+		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotation);
+		TempProjectile->SetOwner(this);
+	
+	}
+
+}
+
+void APawnBase::HandleDestruction()
+{
+	// Universal functionality ---
+	// Player death effects particle, sound and camera shake.
+
+	// ... Then do unique child overrides.
+	// -- Pawn Turret - Inform GameMode Turret died -> Then Destroy() self.
+
+	// -- PawnTank - INform GameMode Player died -> Then Hide(), all components && stop movement input.
+}
 
 
