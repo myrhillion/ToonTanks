@@ -8,6 +8,7 @@
 
 class APawnTurret;
 class APawnTank;
+class APlayerControllerBase;
 
 /**
  * 
@@ -30,6 +31,14 @@ private:
 
 	int32 TargetTurrets = 0;
 
+	APlayerControllerBase* PlayerControllerRef;
+
+
+	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Game Loop", meta = (AllowPrivateAccess = "true"))
+	int StartDelay = 3;
+	int32 GetTargetTurretCount();
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player", meta = (AllowPrivateAccess = "true"))
 	APawnTank* PlayerTank;
 
