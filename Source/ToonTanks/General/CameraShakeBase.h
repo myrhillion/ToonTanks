@@ -14,4 +14,5 @@ class TOONTANKS_API UCameraShakeBase : public UCameraShake
 {
 	GENERATED_BODY()
 	
+
 };
